@@ -7,22 +7,17 @@
     show us basic structure we need here
 */
 
-use Tygh\Registry;
+require_once('helper.php');
 
-// isn't required but useful
-function LOGGER ($msg, $f, $l)
-{
-    // Johny Logger, keep logging
-    $logger = Tygh\Logger::instance();
-    $logger->logfile = 'var/cache/dumb_payment' . date('Y-m-d') . '.log';
-    $logger->write($msg, $f, $l);
-}
+use Tygh\Registry;
+use Addons\DumbPayment\Helper as ADH;
+
 
 // get addon setting
-///LOGGER(Registry::get('addons.dumb_payment_addon.account_id'), __FILE__, __LINE__);
+///ADH\LOGGER(Registry::get('addons.dumb_payment_addon.account_id'), __FILE__, __LINE__);
 
 // get all defined vars and contents
-//LOGGER(print_r(get_defined_vars(), true), __FILE__, __LINE__);
+//ADH\LOGGER(print_r(get_defined_vars(), true), __FILE__, __LINE__);
 
 // test if cs-cart was installed
 if (!defined('BOOTSTRAP')) { die('Access denied'); }
@@ -56,24 +51,18 @@ else
     // create a redirect (form that post) data to dumb payment
     
     // payment redir url
-    $success_redir_url = fn_url("checkout.complete?order_id=$order_id");
+    $success_redir_url = fn_url("dumb_payment.complete?order_id=$order_id");
     
     // your payment redir url
-    $submit_url = $success_redir_url; //'https://dumb.dumb.dumb/pay';
+    //$submit_url = 'https://dumb.dumb.dumb/pay';
+    $submit_url = $success_redir_url; // my submit url is a redir to success
     
     $data = array(
         'foo' => 'bar',
-        'success_uri' => $success_redir_url // whatever your payment expect
+        'success_uri' => $success_redir_url // or whatever your payment expect
     );
-    
-    //Three options:
-    //    - Save order when user are redirected to success (see ../controllers/frontend/checkout.post.php)
-    //    - Save order when receive payment notification (see ../controllers/common/payment_notification.post.php)
-    //    - Save order when user choose payment (uncomment below)
-    //fn_order_placement_routines('save', $order_id);
     
     $payment_name = 'Dumb Payment';
     $exclude_empty_values = true;
     fn_create_payment_form($submit_url, $data, $payment_name, $exclude_empty_values);
 }
-//exit; // I don't know why but any payments do this

@@ -19,3 +19,4 @@ Know bugs
 
 * Configure in payments will not work, use addon configuration instead
 * I don't know yet what to do for order registration
+
