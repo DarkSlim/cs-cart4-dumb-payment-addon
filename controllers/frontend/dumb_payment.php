@@ -8,7 +8,10 @@ if (!defined('BOOTSTRAP')) { die('Access denied'); }
 //  - Save order when receive payment notification (see ../controllers/common/payment_notification.post.php)
 //  - Save order when user are redirected to success (uncomment below)
 
-if ($mode == 'complete')
+if (
+    $mode == 'complete' &&
+    fn_check_payment_script('../addons/dumb_payment/payments/script.php', $_REQUEST["order_id"])
+)
 {
     
     $pp_response = array();
