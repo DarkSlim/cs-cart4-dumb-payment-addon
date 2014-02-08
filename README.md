@@ -17,5 +17,6 @@ In payments admins page, add another payment method Dumb/Internet Payment
 Know bugs
 =========
 
+
 * Configure in payments will not work, use addon configuration instead
 
